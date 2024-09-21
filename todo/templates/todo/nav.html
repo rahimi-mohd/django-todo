@@ -1,3 +1,13 @@
 <nav>
-    <a href="#">Home</a>
+    <a href="{% url 'todo:home' %}">Home</a>
+    {% if user.is_authenticated %}
+    <p>Hello {{ user.username }}</p>
+    <form action="{% url 'accounts:logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Log Out</button>
+    </form>
+    {% else %}
+    <a href="{% url 'accounts:login' %}">Login</a>
+    {% endif %}
+
 </nav>

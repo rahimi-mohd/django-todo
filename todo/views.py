@@ -1,10 +1,14 @@
-from django.shortcuts import render,redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
 
 from .forms import TodoForm
 from .models import Todo
 
+
 # Create your views here.
+@login_required
 def home(request):
     if request.method == "POST":
         form = TodoForm(request.POST)
@@ -21,12 +25,14 @@ def home(request):
 
     context = {
         "form": form,
-        "todos":todos,
-        "title":"Home",
+        "todos": todos,
+        "title": "Home",
     }
 
     return render(request, "todo/index.html", context)
 
+
+@login_required
 def change_status(request, pk):
     todo = get_object_or_404(Todo, pk=pk)
 
