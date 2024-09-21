@@ -1,0 +1,22 @@
+{% extends "todo/base.html" %}
+
+{% block main %}
+<h1>This is home page</h1>
+
+<ul>
+    {% for todo in todos %}
+    <li>{{ todo.date_time }}</li>
+    <li>{{ todo.content }}</li>
+    <li><a href="{% url 'todo:change_status' todo.pk %}">{{ todo.get_status_display }}</a></li>
+    {% endfor %}
+</ul>
+
+
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Add Todo</button>
+</form>
+
+
+{% endblock %}
