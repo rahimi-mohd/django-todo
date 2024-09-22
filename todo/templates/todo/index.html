@@ -1,22 +1,43 @@
 {% extends "todo/base.html" %}
+{% load crispy_forms_tags %}
 
 {% block main %}
 <h1>This is home page</h1>
 
-<ul>
-    {% for todo in todos %}
-    <li>{{ todo.date_time }}</li>
-    <li>{{ todo.content }}</li>
-    <li><a href="{% url 'todo:change_status' todo.pk %}">{{ todo.get_status_display }}</a></li>
-    {% endfor %}
-</ul>
+<div class="continer">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Time</th>
+                <th scope="col">Content</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for todo in todos %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ todo.date_time }}</td>
+                <td>{{ todo.content }}</td>
+                <td><a href="{% url 'todo:change_status' todo.pk %}">{{ todo.get_status_display }}</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form }}
-    <button type="submit">Add Todo</button>
-</form>
+
+<div class="container">
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit">Add Todo</button>
+    </form>
+
+</div>
 
 
 {% endblock %}
