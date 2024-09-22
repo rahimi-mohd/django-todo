@@ -44,3 +44,18 @@ $ ./manage runserver # there will be link provided or you can go to http://local
 
 ### Testing is currently work in progress
 Functional testing will be write using Playwright.
+
+There're also several step that needed to be done before we can start functional testing. Playwright should already be install if you follow step 3: Install all the requirements. Next step:
+
+1. Install playwright's requirement [here](https://playwright.dev/python/docs/intro), or follow this instruction:
+
+```
+$ playwright install
+```
+
+2. Run pytest, there will be no browser open by default, so you can add `--headed` to invoke browser. You also can make it slower by using `--slowmo={n}`. Here's the command I use to run playwright with browser and slower time:
+
+```
+$ pytest --headed --slowmo=1000
+```
+
