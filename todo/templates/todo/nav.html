@@ -1,16 +1,20 @@
-<nav class="navbar bg-body-tertiary">
-    <div class="container">
+{% load static %}
+
+<nav class="navbar bg-body-tertiary" data-bs-theme="dark">
+    <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'todo:home' %}">
-            <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Bootstrap" width="30" height="24">
+            <img src="{% static 'todo/checklist.png' %}" alt="Logo" width="30" height="24"
+                class="d-inline-block align-text-top">
+            <em>Todo</em>
         </a>
         {% if user.is_authenticated %}
-        <p>Hello {{ user.username }}</p>
+        <p class="text-white">Hello {{ user.username }}</p>
         <form action="{% url 'accounts:logout' %}" method="post">
             {% csrf_token %}
             <button type="submit">Log Out</button>
         </form>
         {% else %}
-        <a href="{% url 'accounts:login' %}">Login</a>
+        <a class="btn btn-sm btn-outline-light" href="{% url 'accounts:login' %}">Login</a>
         {% endif %}
     </div>
 </nav>

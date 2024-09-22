@@ -16,12 +16,12 @@ def home(request):
             todo = form.save(commit=False)
             todo.user = request.user
             todo.save()
-            messages.success(request, "Todo Added!")
+            # messages.success(request, "Todo Added!")
             return redirect("todo:home")
     else:
         form = TodoForm()
 
-    todos = Todo.objects.filter(user=request.user)
+    todos = Todo.objects.filter(user=request.user).order_by("-date_time")
 
     context = {
         "form": form,
@@ -41,4 +41,5 @@ def change_status(request, pk):
         todo.save()
     elif todo.status == 2:
         todo.delete()
+        messages.success(request, f"Pwoshhh.....{todo.content} deleted")
     return redirect("todo:home")

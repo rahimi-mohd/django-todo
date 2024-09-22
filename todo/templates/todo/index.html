@@ -1,16 +1,16 @@
 {% extends "todo/base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 
 {% block main %}
-<h1>This is home page</h1>
 
-<div class="continer">
+<div class="container my-5">
 
     <table class="table">
         <thead>
-            <tr>
+            <tr class="table-info">
                 <th scope="col">#</th>
-                <th scope="col">Time</th>
+                <th scope="col">Date/Time</th>
                 <th scope="col">Content</th>
                 <th scope="col">Status</th>
             </tr>
@@ -19,25 +19,51 @@
             {% for todo in todos %}
             <tr>
                 <th scope="row">{{ forloop.counter }}</th>
-                <td>{{ todo.date_time }}</td>
+                <td>{{ todo.date_time|date:"D jMy | g:iA" }}</td>
                 <td>{{ todo.content }}</td>
-                <td><a href="{% url 'todo:change_status' todo.pk %}">{{ todo.get_status_display }}</a></td>
+                {% if todo.status == 1 %}
+                <td class="table-danger text-center">
+                    <a class="btn btn-outline-danger btn-sm" href="{% url 'todo:change_status' todo.pk %}">
+                        {{ todo.get_status_display }}
+                    </a>
+                </td>
+                {% else %}
+                <td class="table-success text-center">
+                    <a class="btn btn-outline-success btn-sm" href="{% url 'todo:change_status' todo.pk %}">
+                        {{ todo.get_status_display }}
+                    </a>
+                </td>
+                {% endif %}
             </tr>
+            {% empty %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    <p class="fst-italic">Congratulations!! You don't have any pending Todos.</p>
+                </td>
+                <td></td>
+            </tr>
+
             {% endfor %}
         </tbody>
     </table>
 </div>
 
-
-
-<div class="container">
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <button type="submit">Add Todo</button>
-    </form>
-
+<div class="container mt-5">
+    <div class="container m-4">
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4"><img src="{% static 'todo/reading.png' %}" width="50" height="50"
+                    alt="cat reading">Add Todo</legend>
+            <form action="" method="post">
+                <div class="mb-3">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </fieldset>
+    </div>
 </div>
-
 
 {% endblock %}
